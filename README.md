@@ -4,9 +4,9 @@ A lightweight chatroom application where users can join and chat in real-time.
 
 ## Tech stack
 
-### Backend: Node.js and Socket.IO
+- Backend: Node.js and Socket.IO
 
-### Frontend: React JS
+- Frontend: React JS
 
 ## Features
 
