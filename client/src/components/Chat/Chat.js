@@ -11,6 +11,7 @@ let socket;
 const Chat = () => {
   const [name, setName] = useState('');
   const [room, setRoom] = useState('');
+
   const [message, setMessage] = useState([]);
   const [messages, setMessages] = useState([]);
   const ENDPOINT = "localhost:4000";
@@ -37,6 +38,8 @@ const Chat = () => {
     socket.on('message', (message) => {
       setMessages([...messages, message]);
     })
+
+    
   }, [messages])
 
   //function for sending msgs
@@ -58,6 +61,7 @@ const Chat = () => {
         <Infobar room={room} />
         <Messages messages={messages} name={name}/>
         <Input message={message} setMessage={setMessage} sendMessage={sendMessage}/>
+        
         
       </div>
     </div>
