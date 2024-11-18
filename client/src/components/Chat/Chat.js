@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import queryString from 'query-string';
 import io from 'socket.io-client';
-
-
+import Infobar from '../Infobar/infobar';
+import Input from '../Input/Input';
 import './Chat.css';
 
 let socket;
@@ -10,6 +10,8 @@ let socket;
 const Chat = () => {
   const [name, setName] = useState('');
   const [room, setRoom] = useState('');
+  const [message, setMessage] = useState([]);
+  const [messages, setMessages] = useState([]);
   const ENDPOINT = "localhost:4000";
 
   useEffect(() => {
@@ -25,14 +27,37 @@ const Chat = () => {
     });
 
     return () => {
-      socket.emit('disconnect');
-      socket.off();
+      socket.disconnect();
     }
   }, [ENDPOINT, window.location.search]);
 
+  // to handle messages
+  useEffect(() => {
+    socket.on('message', (message) => {
+      setMessages([...messages, message]);
+    })
+  }, [messages])
+
+  //function for sending msgs
+  const sendMessage = (e) => {
+    e.preventDefault();
+
+    if(message){
+      socket.emit('sendMessage', message, () => {
+        setMessage('');
+      })
+    }
+  }
+
+  console.log(message, messages);
   return (
-    <div>
-      chat
+    <div className='outerContainer'>
+      <div className='container'>
+
+        <Infobar room={room} />
+        <Input message={message} setMessage={setMessage} sendMessage={sendMessage}/>
+        
+      </div>
     </div>
   )
 }
